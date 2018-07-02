@@ -1,4 +1,5 @@
 import pygame
+from gameObjects import Player
 
 running = True
 FPS = 30
@@ -18,6 +19,12 @@ screen = pygame.display.set_mode((400,400))
 screen.fill(SWEDISH_BLUE)
 # Keeps track of game clock
 clock = pygame.time.Clock()
+# Create player
+player = Player(screen)
+# Create a list to hold all sprites
+all_sprites = pygame.sprite.Group()
+# Add sprites to our list of sprites
+all_sprites.add(player)
 
 while running :
     # Set the game speed
@@ -49,10 +56,12 @@ while running :
         playerY = playerY + 10
 
     # Drawing our player                      (x,y,width,height)
-    pygame.draw.rect(screen, SWEDISH_YELLOW , ( playerX, playerY, 100, 100 ) )
+    # pygame.draw.rect(screen, SWEDISH_YELLOW , ( playerX, playerY, 100, 100 ) )
 
     # Practicing creating platforms
-    pygame.draw.rect(screen, WHITE, (0,350,400,50) )
+    # pygame.draw.rect(screen, WHITE, (0,350,400,50) )
+
+    all_sprites.draw(screen)
 
     # Display new screen
     pygame.display.flip()
