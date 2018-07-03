@@ -40,26 +40,36 @@ while running :
             running = False
 
         # Process controls
-        # if event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_LEFT:
-        #         playerX = playerX - 10
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                # move the player left
+                player.goLeft()
+            if event.key == pygame.K_RIGHT:
+                player.goRight()
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT:
+                # stop moving left
+                player.stop()
+            if event.key == pygame.K_RIGHT:
+                player.stop()
+
 
     # Process controls continuously
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_RIGHT]:
-        playerX = playerX + 10
-    if keys[pygame.K_LEFT]:
-        playerX = playerX - 10
-    if keys[pygame.K_UP]:
-        playerY = playerY - 10
-    if keys[pygame.K_DOWN]:
-        playerY = playerY + 10
-
-    # Drawing our player                      (x,y,width,height)
-    # pygame.draw.rect(screen, SWEDISH_YELLOW , ( playerX, playerY, 100, 100 ) )
+    # keys = pygame.key.get_pressed()
+    # if keys[pygame.K_RIGHT]:
+    #     playerX = playerX + 10
+    # if keys[pygame.K_LEFT]:
+    #     playerX = playerX - 10
+    # if keys[pygame.K_UP]:
+    #     playerY = playerY - 10
+    # if keys[pygame.K_DOWN]:
+    #     playerY = playerY + 10
 
     # Practicing creating platforms
     # pygame.draw.rect(screen, WHITE, (0,350,400,50) )
+
+    all_sprites.update()
 
     all_sprites.draw(screen)
 

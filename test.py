@@ -1,7 +1,7 @@
 import pygame
 from sprites import Player
+from sprites import Wall
 
-yo = True
 running = True
 FPS = 30
 BLACK = (0,0,0)
@@ -16,27 +16,57 @@ pygame.init()
 # Start up sound module for Pygame
 pygame.mixer.init()
 # Set up the screen for
-screen = pygame.display.set_mode((400,400))
+screen = pygame.display.set_mode((800,600))
 screen.fill(SWEDISH_BLUE)
 # Keeps track of game clock
 clock = pygame.time.Clock()
-
-all_sprites = pygame.sprite.Group()
+# Create player
 player = Player(screen)
+# Create a list to hold all sprites
+all_sprites = pygame.sprite.Group()
+# Add sprites to our list of sprites
 all_sprites.add(player)
+
+walls = [] # List to hold the walls
+
+# Holds the level layout in a list of strings.
+level = [
+"WWWWWWWWWWWWWWWWWWWWWWWW",
+"W                      W",
+"W                      W",
+"W             W        W",
+"W                      W",
+"W                      W",
+"W                      W",
+"W                      W",
+"W                      W",
+"W                      W",
+"W                      W",
+"W                      W",
+"WWWWWWWWWWWWWWWWWWWWWWWW",
+]
+
+# Parse the level string above. W = wall, E = exit
+x = y = 0
+size = 2
+for row in level:
+    for col in row:
+        if col == "W":
+            Wall((x, y), walls, size)
+        if col == "E":
+            end_rect = pygame.Rect(x, y, size, size)
+        x += size
+    y += size
+    x = 0
+
+player.walls = walls
 
 while running :
     # Set the game speed
     clock.tick(FPS)
 
+    # Wipe screen
     screen.fill(SWEDISH_BLUE)
-    # Change background
-    # if yo:
-    #     screen.fill(WHITE)
-    #     yo = False
-    # else :
-    #     screen.fill(BLACK)
-    #     yo = True
 
     # Process Input
     for event in pygame.event.get():
@@ -45,37 +75,29 @@ while running :
             running = False
 
         # Process controls
-        # if event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_LEFT:
-        #         playerX = playerX - 10
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
+                # move the player left
                 player.goLeft()
+            if event.key == pygame.K_RIGHT:
+                # move the player right
+                player.goRight()
+            if event.key == pygame.K_UP:
+                player.jump()
 
         if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT and player.change_x < 0:
-                    player.stopMove()
+            if event.key == pygame.K_LEFT:
+                # stop moving left
+                player.stop()
+            if event.key == pygame.K_RIGHT:
+                # stop moving right
+                player.stop()
 
     all_sprites.update()
 
-    # Process controls continuously
-    # keys = pygame.key.get_pressed()
-    # if keys[pygame.K_RIGHT]:
-    #     playerX = playerX + 10
-    # if keys[pygame.K_LEFT]:
-    #     playerX = playerX - 10
-    # if keys[pygame.K_UP]:
-    #     playerY = playerY - 10
-    # if keys[pygame.K_DOWN]:
-    #     playerY = playerY + 10
-
-    # Drawing our player                      (x,y,width,height)
-    pygame.draw.rect(screen, SWEDISH_YELLOW , ( playerX, playerY, 100, 100 ) )
-
-    # Drawing a circle
-    # pygame.draw.circle(screen, (255,0,0), (0,0) , 50)
     all_sprites.draw(screen)
-
+    for wall in walls:
+        pygame.draw.rect(screen, (255, 255, 255), wall.rect)
     # Display new screen
     pygame.display.flip()
 
