@@ -59,7 +59,7 @@ for row in level:
     y += size
     x = 0
 
-player.walls = walls
+#player.walls = walls
 
 while running :
     # Set the game speed
@@ -94,8 +94,8 @@ while running :
                 player.stop()
 
     all_sprites.update()
-
     all_sprites.draw(screen)
+    
     for wall in walls:
         pygame.draw.rect(screen, (255, 255, 255), wall.rect)
     # Display new screen

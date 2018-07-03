@@ -70,26 +70,6 @@ class Player(pygame.sprite.Sprite):
     def stop(self):
         self.change_x = 0
 
-class Platform(pygame.sprite.Sprite):
-    """ Platform the user can jump on """
-
-    def __init__(self,screen):
-        """ Platform constructor. Assumes constructed with user passing in
-            an array of 4 numbers like what's defined at the top of this
-            code. """
-        # pygame.sprite.Sprite.__init__(self)
-        # #self.image = pygame.Surface((400,50))
-        # pygame.draw.rect(screen, (255,255,255), (0,350,400,50) )
-        # #self.image.fill((255,255,255))
-        # self.rect = self.image.get_rect()
-        # self.rect.topleft = (0,350)
-
-        pygame.sprite.Sprite.__init__(self)
-        self.rect = pygame.Rect((0,350,400,50) )
-        self.image = pygame.Surface(self.rect.size).convert()
-        self.image.fill((255,255,255))
-        self.type = "normal"
-
 # Nice class to hold a wall rect
 class Wall(object):
 
