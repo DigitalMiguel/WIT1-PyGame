@@ -47,6 +47,9 @@ class Player(pygame.sprite.Sprite):
         if self.rect.y > 640 :
             # Respawn / Reset
             self.rect.center = (self.start_x,self.start_y)
+            # Reset the position of all the walls
+            for wall in self.localWalls:
+                wall.reset()
 
 
     def calcGrav(self):
@@ -76,8 +79,18 @@ class Player(pygame.sprite.Sprite):
 
 class Wall(pygame.sprite.Sprite):
 
+    # Starting positions
+    start_x = 0
+    start_y = 0
+
     def __init__(self,c,x,y,s):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((s,s))
         self.rect = pygame.Rect(x,y,s,s) # (x,y,width,heights)
         self.image.fill(c)
+        self.start_x = x
+        self.start_y = y
+
+    def reset(self):
+        self.rect.x = self.start_x
+        self.rect.y = self.start_y
