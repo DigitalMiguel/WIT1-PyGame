@@ -6,73 +6,98 @@ class Player(pygame.sprite.Sprite):
     change_x = 0
     change_y = 0
 
-    walls = []
+    # Set starting variables
+    start_x = 150
+    start_y = 150
+
+    localWalls = pygame.sprite.Group()
 
     def __init__(self, screen):
         # Lets us use sprites
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((100,100))
-        pygame.draw.rect(screen, (255,255,255), (150,150,100,100) )
+
+        self.image = pygame.Surface((32,32))
+        pygame.draw.rect(screen, (255,255,255), (self.start_x,self.start_y,32,32) )
         self.image.fill((0,255,255))
         self.rect = self.image.get_rect()
-        self.rect.center = (100,100)
+        self.rect.center = (self.start_x,self.start_y)
 
-    def calc_grav(self):
-        """ Calculate effect of gravity. """
-        if self.change_y == 0:
-            self.change_y = 1
-        else:
-            self.change_y += .35
-
-        # See if we are on the ground.
-        if self.rect.y >= 400 - self.rect.height and self.change_y >= 0:
-            self.change_y = 0
-            self.rect.y = 400 - self.rect.height
 
     def update(self):
-        # Gravity
-        self.calc_grav()
-
         # Move left and right
         self.rect.x = self.rect.x + self.change_x
-        # Move up and down
+
+        # Determine the change along the y
+        self.calcGrav()
+
+        # Sets position
         self.rect.y = self.rect.y + self.change_y
-
-        # If you collide with a wall, move out based on velocity
-        for wall in self.walls:
+        # Check for platform collision
+        for wall in self.localWalls:
             if self.rect.colliderect(wall.rect):
-                print("mhm")
-            else :
-                print("OHHH")
+                ### NEW COLLISION ###
+                if self.rect.bottom < wall.rect.bottom and self.change_y > 0:
+                    self.rect.bottom = wall.rect.top
+                    self.change_y = 0
 
+                if self.rect.bottom > wall.rect.top and self.rect.x < wall.rect.x:
+                    self.rect.right = wall.rect.left
+                elif self.rect.bottom > wall.rect.top and self.rect.x > wall.rect.x:
+                    self.rect.left = wall.rect.right
 
+        # Check how far right player is in screen
+        if self.rect.x > 300 :
+            for wall in self.localWalls:
+                wall.rect.x -= self.change_x
+                self.rect.x = 299
 
-    def jump(self):
-        """ Called when user hits 'jump' button. """
+        if self.rect.y > 640 :
+            self.reset()
 
-        # move down a bit and see if there is a platform below us.
-        # Move down 2 pixels because it doesn't work well if we only move down 1
-        # when working with a platform moving down.
-        self.rect.y += 2
-        platform_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
-        self.rect.y -= 2
+    def calcGrav(self):
 
-        # If it is ok to jump, set our speed upwards
-        if len(platform_hit_list) > 0 or self.rect.bottom >= 400:
-            self.change_y = -10
+        if self.change_y == 0:
+            self.change_y = 3
+        else :
+            self.change_y = self.change_y + .8
 
     def goLeft(self):
-        self.change_x = -10
+        self.change_x = -7
 
     def goRight(self):
-        self.change_x = 5
+        self.change_x = 7
+
+    def jump(self):
+        # Test if there's anything below us
+        self.rect.y += 2
+        wallHitList = pygame.sprite.spritecollide(self, self.localWalls, False)
+        self.rect.y -= 2
+        # if something is below us, then jump
+        if len(wallHitList) > 0:
+            self.change_y = -20
 
     def stop(self):
         self.change_x = 0
 
-# Nice class to hold a wall rect
-class Wall(object):
+    def reset(self):
+        self.rect.x = self.start_x
+        self.rect.y = self.start_y
+        for wall in self.localWalls:
+            wall.reset()
 
-    def __init__(self, pos, walls,size):
-        walls.append(self)
-        self.rect = pygame.Rect(pos[0], pos[1], size, size)
+class Wall(pygame.sprite.Sprite):
+
+    start_x = 0
+    start_y = 0
+
+    def __init__(self,c,x,y,s):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((s,s))
+        self.rect = pygame.Rect(x,y,s,s) # (x,y,width,heights)
+        self.image.fill(c)
+        self.start_x = x
+        self.start_y = y
+
+    def reset(self):
+        self.rect.x = self.start_x
+        self.rect.y = self.start_y
