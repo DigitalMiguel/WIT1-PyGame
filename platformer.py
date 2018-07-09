@@ -4,7 +4,7 @@ from gameObjects import Player
 from gameObjects import Wall
 
 running = True
-FPS = 30
+FPS = 45
 BLACK = (0,0,0)
 SWEDISH_BLUE = (62, 127, 232)
 SWEDISH_YELLOW = (254, 204, 0)
@@ -22,6 +22,11 @@ screen = pygame.display.set_mode((640,640))
 screen.fill(SWEDISH_BLUE)
 # Keeps track of game clock
 clock = pygame.time.Clock()
+
+# Start timer
+start_ticks=pygame.time.get_ticks()
+timer = 0
+
 # Create player
 player = Player(screen)
 # Create a list to hold all sprites
@@ -77,6 +82,8 @@ player.localWalls = walls
 while running :
     # Set the game speed
     clock.tick(FPS)
+    # Track time spent in game
+    timer = (pygame.time.get_ticks() - start_ticks)/1000
 
     # Wipe screen
     screen.fill(SWEDISH_BLUE)
@@ -114,5 +121,7 @@ while running :
     pygame.display.flip()
 
     # End of while loop
+
+print(timer)
 
 pygame.quit()

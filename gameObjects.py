@@ -10,13 +10,16 @@ class Player(pygame.sprite.Sprite):
     start_x = 100
     start_y = 100
 
+    # Positions of death
+    die_x = 0
+
     localWalls = pygame.sprite.Group()
 
     def __init__(self, screen):
         # Lets us use sprites
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((100,100))
-        pygame.draw.rect(screen, (255,255,255), (150,150,100,100) )
+        self.image = pygame.Surface((32,32))
+        pygame.draw.rect(screen, (255,255,255), (150,150,32,32) )
         self.image.fill((0,255,255))
         self.rect = self.image.get_rect()
 
@@ -53,7 +56,12 @@ class Player(pygame.sprite.Sprite):
                 wall.rect.x -= self.change_x
                 self.rect.x = 299
 
+        if self.rect.x <= 0:
+            self.rect.x = 0
+
         if self.rect.y > 640 :
+            # Save position of death
+            self.die_x = self.rect.x
             # Respawn / Reset
             self.rect.center = (self.start_x,self.start_y)
             # Reset the position of all the walls
@@ -61,18 +69,20 @@ class Player(pygame.sprite.Sprite):
                 wall.reset()
 
 
+
+
     def calcGrav(self):
 
         if self.change_y == 0:
-            self.change_y = 2
+            self.change_y = 3
         else :
             self.change_y = self.change_y + .8
 
     def goLeft(self):
-        self.change_x = -10
+        self.change_x = -7
 
     def goRight(self):
-        self.change_x = 10
+        self.change_x = 7
 
     def jump(self):
         # Test if there's anything below us
@@ -81,7 +91,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y -= 2
         # if something is below us, then jump
         if len(wallHitList) > 0:
-            self.change_y = -25
+            self.change_y = -20
 
     def stop(self):
         self.change_x = 0
