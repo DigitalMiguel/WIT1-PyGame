@@ -56,6 +56,7 @@ class Player(pygame.sprite.Sprite):
                 wall.rect.x -= self.change_x
                 self.rect.x = 299
 
+        # Don't move past left threshold
         if self.rect.x <= 0:
             self.rect.x = 0
 
@@ -68,15 +69,12 @@ class Player(pygame.sprite.Sprite):
             for wall in self.localWalls:
                 wall.reset()
 
-
-
-
     def calcGrav(self):
 
         if self.change_y == 0:
-            self.change_y = 3
+            self.change_y = 2
         else :
-            self.change_y = self.change_y + .8
+            self.change_y = self.change_y + .9
 
     def goLeft(self):
         self.change_x = -7

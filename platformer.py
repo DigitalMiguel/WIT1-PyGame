@@ -46,19 +46,19 @@ layout = [  "                                                            ",
             "W                                                           ",
             "W                                                           ",
             "W                                                           ",
+            "W                                  W                 R      ",
             "W                                                           ",
             "W                                                           ",
+            "W                                           W               ",
             "W                                                           ",
             "W                                                           ",
+            "W                                 W                         ",
             "W                                                           ",
             "W                                                           ",
-            "W                                          WWWWWWW          ",
+            "W  R          WW          WW                                ",
             "W                                                           ",
             "W                                                           ",
-            "W        RRRRR               WWWWWWW                        ",
-            "W                                                           ",
-            "W                                                           ",
-            "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"]
+            "                                                            "]
 
 x = 0
 y = 0
