@@ -29,15 +29,24 @@ class Player(pygame.sprite.Sprite):
         # Determine the change along the y
         self.calcGrav()
 
-        # Sets position
+        # Applies gravity
         self.rect.y = self.rect.y + self.change_y
 
         # Check for platform collision
         for wall in self.localWalls:
             if self.rect.colliderect(wall.rect):
-                if self.change_y > 0:
+                # Collide with walls
+                if self.change_y > 0 and self.rect.bottom < wall.rect.bottom :
                     self.rect.bottom = wall.rect.top
                     self.change_y = 0
+                elif self.change_y < 0 and self.rect.top > wall.rect.top:
+                    self.rect.top = wall.rect.bottom
+                    self.change_y = 0
+                elif self.rect.bottom > wall.rect.top and self.rect.x < wall.rect.x:
+                    self.rect.right = wall.rect.left
+                elif self.rect.bottom > wall.rect.top and self.rect.x > wall.rect.x:
+                    self.rect.left = wall.rect.right
+
         # Check how far right player is in screen
         if self.rect.x > 300 :
             for wall in self.localWalls:
