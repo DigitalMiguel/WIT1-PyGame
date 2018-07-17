@@ -1,0 +1,25 @@
+if (Input.GetKeyDown(KeyCode.E)){
+  //Raycast
+  RaycastHit hit;
+  Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+  if (Physics.Raycast(ray, out hit) && item == null ){
+    GameObject objectHit = hit.transform.gameObject;
+
+    if( objectHit.gameObject.tag == "slowItem" ){
+      item = objectHit;
+      item.gameObject.SetActive (false);
+
+    }
+
+  }
+
+  if (Physics.Raycast(ray, out hit) && item != null ){
+    GameObject objectHit = hit.transform.gameObject;
+
+    item.transform.position = hit.point;
+    item.gameObject.SetActive (true);
+
+  }
+
+}

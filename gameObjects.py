@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
 
         # Check for platform collision
         for wall in self.localWalls:
-            if self.rect.colliderect(wall.rect):
+            if self.rect.colliderect(wall.rect) and wall.__class__.__name__ != "TrickWall" :
                 # Collide with walls
                 if self.change_y > 0 and self.rect.bottom < wall.rect.bottom :
                     self.rect.bottom = wall.rect.top
@@ -87,14 +87,59 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += 2
         wallHitList = pygame.sprite.spritecollide(self, self.localWalls, False)
         self.rect.y -= 2
+        # Jump flag
+        canJump = 0
+
+        # Check for trickwalls
+        for wall in wallHitList:
+            if wall.__class__.__name__ != "TrickWall":
+                canJump = 1
+
         # if something is below us, then jump
-        if len(wallHitList) > 0:
+        if canJump == 1:
             self.change_y = -20
 
     def stop(self):
         self.change_x = 0
 
 class Wall(pygame.sprite.Sprite):
+
+    # Starting positions
+    start_x = 0
+    start_y = 0
+
+    def __init__(self,c,x,y,s):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((s,s))
+        self.rect = pygame.Rect(x,y,s,s) # (x,y,width,heights)
+        self.image.fill(c)
+        self.start_x = x
+        self.start_y = y
+
+    def reset(self):
+        self.rect.x = self.start_x
+        self.rect.y = self.start_y
+
+class InvisibleWall(pygame.sprite.Sprite):
+
+    # Starting positions
+    start_x = 0
+    start_y = 0
+
+    def __init__(self,c,x,y,s):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((s,s))
+        self.rect = pygame.Rect(x,y,s,s) # (x,y,width,heights)
+        self.image.fill(c)
+        self.start_x = x
+        self.start_y = y
+
+    def reset(self):
+        self.rect.x = self.start_x
+        self.rect.y = self.start_y
+
+
+class TrickWall(pygame.sprite.Sprite):
 
     # Starting positions
     start_x = 0

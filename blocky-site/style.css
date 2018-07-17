@@ -1,0 +1,88 @@
+/*Global style*/
+body {
+  font-family: 'Chathura', sans-serif;
+  color: #FFF;
+  width: auto;
+  height: auto;
+}
+
+.h1-background{
+  background-color: #000;
+  height: 75px;
+  width: 30%;
+  padding: 5px;
+}
+
+.h1-titles {
+  color: #0000FF;
+  text-align: center;
+}
+
+h2 {
+  font-family: 'Chathura', sans-serif;
+  font-size: 3em;
+}
+
+p, li{
+  font-size: 2em;
+}
+
+
+/*Header styles*/
+.header-background {
+  background-color: #000;
+  grid-column: 1/-1;
+}
+
+.logo {
+  color: #0000FF;
+  text-align: center;
+  padding: 50px;
+  font-size: 4em;
+  font-family: 'Press Start 2P', cursive;
+}
+
+/*Main content*/
+
+.wrapper {
+  background-color: #0000FF; /* blue */
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 200px auto auto 80px;
+  grid-gap: 5px;
+}
+
+.survivor-section {
+  grid-column: 1/6;
+}
+
+.death-section {
+  grid-column: 6/-1;
+}
+
+.summary-section {
+  grid-column: 1/-1;
+}
+
+
+/* Footer */
+footer {
+  background-color: black;
+  grid-column: 1/-1;
+}
+
+/*Fixing the elements to fit on small screens*/
+@media screen and (max-width: 720px) {
+.wrapper {
+  padding: 10%;
+}
+
+.survivor-section {
+  width: 100%;
+}
+
+.death-section {
+  width: 100%;
+}
+
+}

@@ -1,12 +1,12 @@
 import pygame
 import random
-from gameObjects import Player
-from gameObjects import Wall
+from gameObjects import *
 
 running = True
 FPS = 45
 BLACK = (0,0,0)
 SWEDISH_BLUE = (62, 127, 232)
+BACKGROUND_COLOR = (62, 127, 232)
 SWEDISH_YELLOW = (254, 204, 0)
 RED = (240,10,10)
 WHITE = (255,255,255)
@@ -46,16 +46,16 @@ layout = [  "                                                            ",
             "W                                                           ",
             "W                                                           ",
             "W                                                           ",
-            "W                                  W                 R      ",
+            "W         I                        W                 R      ",
+            "W         I                                                 ",
+            "W         I                                                 ",
+            "W         I                                 W               ",
+            "W         I                                                 ",
+            "W         I                                                 ",
+            "W         I                       W                         ",
             "W                                                           ",
             "W                                                           ",
-            "W                                           W               ",
-            "W                                                           ",
-            "W                                                           ",
-            "W                                 W                         ",
-            "W                                                           ",
-            "W                                                           ",
-            "W  R          WW          WW                                ",
+            "W  R      W   TT          WW                                ",
             "W                                                           ",
             "W                                                           ",
             "                                                            "]
@@ -72,6 +72,12 @@ for row in layout:
         if col == "R":
             walls.add( Wall((RED),x,y,size) )
             x = x + size
+        if col == "I":
+            walls.add( InvisibleWall((BACKGROUND_COLOR),x,y,size) )
+            x = x + size
+        if col == "T":
+            walls.add( TrickWall((WHITE),x,y,size) )
+            x = x + size
         if col == " ":
             x = x + size
     y = y + size
@@ -86,7 +92,7 @@ while running :
     timer = (pygame.time.get_ticks() - start_ticks)/1000
 
     # Wipe screen
-    screen.fill(SWEDISH_BLUE)
+    screen.fill(BACKGROUND_COLOR)
 
     # Process Input
     for event in pygame.event.get():
