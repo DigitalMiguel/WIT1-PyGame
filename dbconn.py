@@ -1,6 +1,6 @@
 import pymysql
 
-playerName = "God Gamer"
+playerName = "POST"
 
 # Connect to the database
 connection = pymysql.connect(host='138.68.231.130',
@@ -27,7 +27,7 @@ class DBCONN(object):
         with connection.cursor() as cursor:
             # Create a new record
             sql = "INSERT INTO `time_completed` (`id`, `name`,`time`) VALUES (NULL,%s, %s)"
-            cursor.execute(sql, (playerName, 4))
+            cursor.execute(sql, (playerName, time))
 
         # connection is not autocommit by default. So you must commit to save
         # your changes.

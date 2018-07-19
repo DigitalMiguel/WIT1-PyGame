@@ -46,9 +46,9 @@ class Player(pygame.sprite.Sprite):
         # Check for platform collision
         for wall in self.localWalls:
             if self.rect.colliderect(wall.rect) and wall.__class__.__name__ != "TrickWall" :
-
+                # Check if VictoryWall
                 if wall.victory == 1:
-                    dbconn.insertTime(timer)
+                    self.dbconn.insertTime(self.timer)
                 # Collide with walls
                 if self.change_y > 0 and self.rect.bottom < wall.rect.bottom :
                     self.rect.bottom = wall.rect.top
