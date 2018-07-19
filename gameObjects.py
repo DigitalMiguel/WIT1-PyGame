@@ -18,6 +18,9 @@ class Player(pygame.sprite.Sprite):
     # Positions of death
     die_x = 0
 
+    # track timer
+    timer = 0
+
     localWalls = pygame.sprite.Group()
 
     def __init__(self, screen):
@@ -43,6 +46,9 @@ class Player(pygame.sprite.Sprite):
         # Check for platform collision
         for wall in self.localWalls:
             if self.rect.colliderect(wall.rect) and wall.__class__.__name__ != "TrickWall" :
+
+                if wall.victory == 1:
+                    dbconn.insertTime(timer)
                 # Collide with walls
                 if self.change_y > 0 and self.rect.bottom < wall.rect.bottom :
                     self.rect.bottom = wall.rect.top
@@ -54,6 +60,8 @@ class Player(pygame.sprite.Sprite):
                     self.rect.right = wall.rect.left
                 elif self.rect.bottom > wall.rect.top and self.rect.x > wall.rect.x:
                     self.rect.left = wall.rect.right
+
+
 
         # Check how far right player is in screen
         if self.rect.x > 300 :
@@ -69,8 +77,6 @@ class Player(pygame.sprite.Sprite):
             # Save position of death
             self.die_x = self.rect.x
 
-            ### DBCONN ###
-            self.dbconn.insertPixel(self.die_x)
 
             # Respawn / Reset
             self.rect.center = (self.start_x,self.start_y)
@@ -116,6 +122,7 @@ class Wall(pygame.sprite.Sprite):
     # Starting positions
     start_x = 0
     start_y = 0
+    victory = 0
 
     def __init__(self,c,x,y,s):
         pygame.sprite.Sprite.__init__(self)
@@ -129,11 +136,33 @@ class Wall(pygame.sprite.Sprite):
         self.rect.x = self.start_x
         self.rect.y = self.start_y
 
+class VictoryWall(pygame.sprite.Sprite):
+
+    # Starting positions
+    start_x = 0
+    start_y = 0
+    victory = 1
+
+
+    def __init__(self,c,x,y,s):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((s,s))
+        self.rect = pygame.Rect(x,y,s,s) # (x,y,width,heights)
+        self.image.fill(c)
+        self.color = c
+        self.start_x = x
+        self.start_y = y
+
+    def reset(self):
+        self.rect.x = self.start_x
+        self.rect.y = self.start_y
+
 class InvisibleWall(pygame.sprite.Sprite):
 
     # Starting positions
     start_x = 0
     start_y = 0
+    victory = 0
 
     def __init__(self,c,x,y,s):
         pygame.sprite.Sprite.__init__(self)
@@ -153,6 +182,7 @@ class TrickWall(pygame.sprite.Sprite):
     # Starting positions
     start_x = 0
     start_y = 0
+    victory = 0
 
     def __init__(self,c,x,y,s):
         pygame.sprite.Sprite.__init__(self)

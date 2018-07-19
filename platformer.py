@@ -44,7 +44,7 @@ layout = [  "                                                            ",
             "W                                                           ",
             "W                                                           ",
             "W                                                           ",
-            "W         I                        W                 R      ",
+            "W         I                        W                 V      ",
             "W         I                                                 ",
             "W         I                                                 ",
             "W         I                                 W               ",
@@ -53,7 +53,7 @@ layout = [  "                                                            ",
             "W                                 W                         ",
             "W                                                           ",
             "W                                                           ",
-            "W  R      W   TT          WW                                ",
+            "W  W     VW   WW          WW                                ",
             "W                                                           ",
             "W                                                           ",
             "                                                            "]
@@ -76,6 +76,9 @@ for row in layout:
         if col == "T":
             walls.add( TrickWall((WHITE),x,y,size) )
             x = x + size
+        if col == "V":
+            walls.add( VictoryWall((SWEDISH_YELLOW),x,y,size) )
+            x = x + size
         if col == " ":
             x = x + size
     y = y + size
@@ -88,7 +91,7 @@ while running :
     clock.tick(FPS)
     # Track time spent in game
     timer = (pygame.time.get_ticks() - start_ticks)/1000
-
+    player.timer = timer
     # Wipe screen
     screen.fill(BACKGROUND_COLOR)
 
@@ -125,7 +128,5 @@ while running :
     pygame.display.flip()
 
     # End of while loop
-
-print(timer)
 
 pygame.quit()
