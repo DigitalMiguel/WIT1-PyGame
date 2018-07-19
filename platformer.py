@@ -34,8 +34,6 @@ all_sprites = pygame.sprite.Group()
 # Add sprites to our list of sprites
 all_sprites.add(player)
 # Container for walls
-#testList = ["A","B","C"]
-
 walls = pygame.sprite.Group()
 
 # Create a layout
@@ -51,8 +49,8 @@ layout = [  "                                                            ",
             "W         I                                                 ",
             "W         I                                 W               ",
             "W         I                                                 ",
-            "W         I                                                 ",
-            "W         I                       W                         ",
+            "W                                                           ",
+            "W                                 W                         ",
             "W                                                           ",
             "W                                                           ",
             "W  R      W   TT          WW                                ",

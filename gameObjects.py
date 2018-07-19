@@ -1,6 +1,11 @@
 import pygame
+### DBCONN ###
+from dbconn import *
 
 class Player(pygame.sprite.Sprite):
+
+    ### DBCONN ###
+    dbconn = DBCONN()
 
     # Set movement variables
     change_x = 0
@@ -63,6 +68,10 @@ class Player(pygame.sprite.Sprite):
         if self.rect.y > 640 :
             # Save position of death
             self.die_x = self.rect.x
+
+            ### DBCONN ###
+            self.dbconn.insertPixel(self.die_x)
+
             # Respawn / Reset
             self.rect.center = (self.start_x,self.start_y)
             # Reset the position of all the walls
