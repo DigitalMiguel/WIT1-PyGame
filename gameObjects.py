@@ -1,6 +1,7 @@
 import pygame
 ### DBCONN ###
 from dbconn import *
+from platformer import *
 
 class Player(pygame.sprite.Sprite):
 
@@ -49,6 +50,7 @@ class Player(pygame.sprite.Sprite):
                 # Check if VictoryWall
                 if wall.victory == 1:
                     self.dbconn.insertTime(self.timer)
+                    platformer.running = False
                 # Collide with walls
                 if self.change_y > 0 and self.rect.bottom < wall.rect.bottom :
                     self.rect.bottom = wall.rect.top
