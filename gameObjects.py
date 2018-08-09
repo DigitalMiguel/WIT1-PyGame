@@ -78,8 +78,6 @@ class Player(pygame.sprite.Sprite):
         if self.rect.y > 640 :
             # Save position of death
             self.die_x = self.rect.x
-
-
             # Respawn / Reset
             self.rect.center = (self.start_x,self.start_y)
             # Reset the position of all the walls
